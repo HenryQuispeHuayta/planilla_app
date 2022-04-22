@@ -15,13 +15,21 @@ class _EmpleadosState extends State<Empleados> {
   List<String> st = [];
   String data = '';
   String ap = '', am = '', nom = '', est = '';
-  List<List<dynamic>> listaDatos = [];
+  List<dynamic> listaDatos = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    setState(() {
+      cargar();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sistema de planillas'),
+        title: const Text('EMPLEADOS'),
       ),
       body: Column(
         children: [
@@ -33,11 +41,13 @@ class _EmpleadosState extends State<Empleados> {
           ),
           ElevatedButton(
               onPressed: () {
-                cargar();
+                _calcular();
               },
               child: const Text('BUSCAR')),
           // Text(data),
           Row(
+            // crossAxisAlignment: CrossAxisAlignment.start,
+            // mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Column(
                 children: const [
@@ -106,32 +116,27 @@ class _EmpleadosState extends State<Empleados> {
     );
   }
 
-  cargar() async {
-    final lDatos = await rootBundle.loadString('assets/data/planilla.txt');
-    listaDatos = const CsvToListConverter().convert(lDatos);
-    st = lDatos.split(',');
-    print(lDatos.length);
+  _calcular() {
+    String d1 = '', d2 = '', d3 = '', d4 = '';
+    for (int i = 0; i < personal.length; i++) {
+      List<String> st = personal[i]
+          .toString()
+          .replaceAll('[', '')
+          .replaceAll(']', '')
+          .split(',');
+      if (st[0] == ci.text) {
+        d1 = st[1];
+        d2 = st[2];
+        d3 = st[3];
+        d4 = 'No esta en Planilla';
+        if (planilla.toString().contains(ci.text)) d4 = 'En Planilla';
+      }
+    }
+    setState(() {
+      ap = d1;
+      am = d2;
+      nom = d3;
+      est = d4;
+    });
   }
-
-  calcular() {}
 }
-    // for (int i = 0; i < st.length; i++) {
-    //   // int j = 1;
-    //   if (st[i] == ci.text) {
-    //     setState(() {
-    //       ap = st[i+1];
-    //       am = st[i+2];
-    //       nom = st[i+3];
-    //     });
-    //     // data = data + st[i] + ' ';
-    //     // j++;
-    //   }
-    //   //  else {
-    //   //   j = 1;
-    //   //   data = data + '\n';
-    //   // }
-    // }
-    // // setState(() {
-    // //   data;
-    // // });
-    // // print(st.length);

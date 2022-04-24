@@ -9,6 +9,10 @@ List<dynamic> descuentos = [];
 List<dynamic> personal = [];
 List<dynamic> planilla = [];
 
+// Map<int, double> total = {};
+Map<int, double> totalI = {};
+Map<int, double> totalE = {};
+
 cargar() async {
   final bonosDatos = await rootBundle.loadString('assets/data/bonos.txt');
   final cargosDatos = await rootBundle.loadString('assets/data/cargos.txt');
